@@ -10,6 +10,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
 import { Icons } from '@/components/icons';
+import { useNavigate } from "react-router-dom"; // Add at top
+
+
 
 interface Blog {
   id: string;
@@ -29,11 +32,17 @@ const Dashboard = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate(); // Inside component
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     image: null as File | null,
   });
+  const handleSignOut = async () => {
+  await signOut();         // calls Supabase logout
+  navigate("/auth");       // redirects to /auth
+};
 
   const buttonGradient = {
     background: 'linear-gradient(135deg, #4F5BFF 0%, #171a48 50%, #000000 100%)',
@@ -298,13 +307,12 @@ const Dashboard = () => {
               </form>
             </DialogContent>
           </Dialog>
-          <Button 
-            onClick={signOut} 
-            // variant="outline" 
-            className="bg-[rgb(220,38,38,0.9)] text-white hover:bg-[rgb(220,38,38,1)]"
-          >
-            Sign Out
-          </Button>
+         <Button 
+  onClick={handleSignOut}
+  className="bg-[rgb(220,38,38,0.9)] text-white hover:bg-[rgb(220,38,38,1)]"
+>
+  Sign Out
+</Button>
         </div>
       </div>
 
