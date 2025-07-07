@@ -33,7 +33,11 @@ const Dashboard = () => {
   const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate(); // Inside component
-
+useEffect(() => {
+  if (!user && !loading) {
+    navigate("/auth");
+  }
+}, [user, loading]);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
