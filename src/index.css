@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Base colors */
+    --background: 240 6% 7%; /* Slightly lighter than pure black */
+    --foreground: 0 0% 98%;
+
+    /* Card colors */
+    --card: 240 5% 12%;
+    --card-foreground: 0 0% 98%;
+
+    /* Popover colors */
+    --popover: 240 5% 12%;
+    --popover-foreground: 0 0% 98%;
+
+    /* Primary colors - Blue-Purple from your gradient */
+    --primary: 235 86% 65%; /* #4F5BFF in HSL */
+    --primary-foreground: 0 0% 98%;
+
+    /* Secondary colors */
+    --secondary: 235 30% 20%; /* #171a48 in HSL */
+    --secondary-foreground: 0 0% 98%;
+
+    /* Muted colors */
+    --muted: 240 5% 15%;
+    --muted-foreground: 240 4% 65%;
+
+    /* Accent colors - Using the gradient end point */
+    --accent: 240 5% 7%; /* Near black */
+    --accent-foreground: 0 0% 98%;
+
+    /* Destructive colors */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* Border colors */
+    --border: 240 5% 20%;
+    --input: 240 5% 20%;
+    --ring: 235 86% 65%; /* Matching primary */
+
+    /* Custom sidebar colors */
+    --sidebar-background: 240 6% 10%;
+    --sidebar-foreground: 0 0% 90%;
+    --sidebar-primary: 235 86% 65%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 235 30% 20%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 240 5% 20%;
+    --sidebar-ring: 235 86% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  /* Your custom gradient */
+  .bg-brand-gradient {
+    background-image: linear-gradient(135deg, hsl(235, 86%, 65%), hsl(235, 30%, 20%), hsl(0, 0%, 0%));
+  }
+  
+  /* Gradient text using your colors */
+  .text-brand-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(235, 86%, 65%), hsl(235, 30%, 20%));
+  }
+
+  /* For elements that need the full gradient */
+  .bg-full-gradient {
+    background-image: linear-gradient(135deg, #4F5BFF, #171a48, #000000);
+  }
+}
