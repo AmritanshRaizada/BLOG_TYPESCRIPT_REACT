@@ -1,7 +1,7 @@
 # 🚀 Blog Management System for VisionAndSolutions.com
 
 **📝 Project Context**  
-During my Full Stack Developer internship at Vision and Solutions, I built a dynamic blog management system integrated into their main website (www.visionandsolutions.com). The goal was to empower the marketing team to create, manage, and publish blog posts independently without relying on developers.
+During my Full Stack Developer internship at Vision and Solutions, I built a dynamic blog management system integrated into their main website www.visionandsolutions.com. The goal was to empower the marketing team to create, manage, and publish blog posts independently without relying on developers.
 
 **⚠️ Challenges & Requirements**  
 - No existing backend or CMS for blogs; all updates required manual code changes.  
