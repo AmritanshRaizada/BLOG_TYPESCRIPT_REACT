@@ -34,6 +34,7 @@ const Navbar = () => {
 
           <a href="https://visionandsolutions.com/ourWork.html" className="nav-elem"><h4>OUR WORK</h4></a>
           <a href="https://visionandsolutions.com/About.html" className="nav-elem"><h4>About Us</h4></a>
+          <a href="https://blog.visionandsolutions.com/" className="nav-elem"><h4>BLogs</h4></a>
 
           {/* Contact Us stays internal */}
           <Link to="https://visionandsolutions.com/contact.html">
@@ -69,6 +70,9 @@ const Navbar = () => {
         <a href="https://visionandsolutions.com/BillBo.html"><p>Billboard Advertisement</p></a>
         <a href="https://visionandsolutions.com/ourWork.html"><p>OUR WORK</p></a>
         <a href="https://visionandsolutions.com/About.html"><p>ABOUT US</p></a>
+                <a href="https://blog.visionandsolutions.com/"><p>ABOUT US</p></a>
+
+        
         <Link to="https://visionandsolutions.com/contact.html"><p>CONTACT US</p></Link>
       </div>
     </>
