@@ -48,12 +48,11 @@ const Navbar = () => {
               </svg>
             </button>
           </Link>
-
-          <div className="hamburger" onClick={toggleMenu}>
-            <div className="bar" />
-            <div className="bar" />
-            <div className="bar" />
-          </div>
+        </div>
+        <div className="hamburger" onClick={toggleMenu}>
+          <div className="bar" />
+          <div className="bar" />
+          <div className="bar" />
         </div>
       </nav>
 
@@ -70,9 +69,7 @@ const Navbar = () => {
         <a href="https://visionandsolutions.com/BillBo.html"><p>Billboard Advertisement</p></a>
         <a href="https://visionandsolutions.com/ourWork.html"><p>OUR WORK</p></a>
         <a href="https://visionandsolutions.com/About.html"><p>ABOUT US</p></a>
-                <a href="https://blog.visionandsolutions.com/"><p>ABOUT US</p></a>
-
-        
+        <a href="https://blog.visionandsolutions.com/"><p>BLOGS</p></a>
         <Link to="https://visionandsolutions.com/contact.html"><p>CONTACT US</p></Link>
       </div>
     </>
