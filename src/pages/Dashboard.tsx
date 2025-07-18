@@ -11,15 +11,18 @@ import { toast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
 import { Icons } from '@/components/icons';
 import { useNavigate } from "react-router-dom";
+import { Switch } from '@/components/ui/switch';
 
 interface Blog {
   id: string;
   title: string;
   description: string;
+  content: string;
   image_url: string | null;
   published: boolean;
   created_at: string;
   author_id: string;
+  author: string;
 }
 
 const Dashboard = () => {
@@ -41,7 +44,10 @@ const Dashboard = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
+    content: '',
     image: null as File | null,
+    published: true,
+    author: user?.user_metadata?.full_name || ''
   });
 
   const handleSignOut = async () => {
@@ -121,8 +127,11 @@ const Dashboard = () => {
           .from('blogs')
           .update({ 
             title: formData.title, 
-            description: formData.description, 
+            description: formData.description,
+            content: formData.content,
             image_url: imageUrl,
+            author: formData.author,
+            published: formData.published,
             updated_at: new Date().toISOString()
           })
           .eq('id', editingBlog.id);
@@ -134,17 +143,26 @@ const Dashboard = () => {
           .from('blogs')
           .insert([{ 
             title: formData.title, 
-            description: formData.description, 
+            description: formData.description,
+            content: formData.content,
             image_url: imageUrl, 
-            author_id: user.id, 
-            published: true 
+            author_id: user.id,
+            author: formData.author,
+            published: formData.published
           }]);
 
         if (error) throw error;
         toast({ title: 'Success', description: 'Blog post created!' });
       }
 
-      setFormData({ title: '', description: '', image: null });
+      setFormData({ 
+        title: '', 
+        description: '', 
+        content: '', 
+        image: null,
+        published: true,
+        author: user?.user_metadata?.full_name || ''
+      });
       setDialogOpen(false);
       setEditingBlog(null);
       fetchBlogs();
@@ -237,7 +255,14 @@ const Dashboard = () => {
             setDialogOpen(open); 
             if (!open) { 
               setEditingBlog(null); 
-              setFormData({ title: '', description: '', image: null }); 
+              setFormData({ 
+                title: '', 
+                description: '', 
+                content: '', 
+                image: null,
+                published: true,
+                author: user?.user_metadata?.full_name || ''
+              }); 
             } 
           }}>
             <DialogTrigger asChild>
@@ -248,8 +273,8 @@ const Dashboard = () => {
                 {editingBlog ? 'Edit Post' : '+ New Post'}
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px] bg-white border-[#E9ECEF] rounded-xl">
-              <DialogHeader>
+            <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-white border-[#E9ECEF] rounded-xl">
+              <DialogHeader className="sticky top-0 bg-white z-10 pb-4 border-b border-[#E9ECEF]">
                 <DialogTitle className="text-[#495057]">
                   {editingBlog ? 'Edit Post' : 'Create New Post'}
                 </DialogTitle>
@@ -257,13 +282,23 @@ const Dashboard = () => {
                   {editingBlog ? 'Update your blog post details' : 'Fill in the details for your new blog post'}
                 </DialogDescription>
               </DialogHeader>
-              <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+              <form onSubmit={handleSubmit} className="space-y-4 mt-4 px-1">
                 <div className="space-y-2">
                   <Label htmlFor="title" className="text-[#495057]">Title*</Label>
                   <Input 
                     id="title" 
                     value={formData.title} 
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })} 
+                    required 
+                    className="bg-[#F1F3F5] border-[#E9ECEF] text-[#495057] focus:ring-2 focus:ring-[#A5D8FF]" 
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="author" className="text-[#495057]">Author*</Label>
+                  <Input 
+                    id="author" 
+                    value={formData.author} 
+                    onChange={(e) => setFormData({ ...formData, author: e.target.value })} 
                     required 
                     className="bg-[#F1F3F5] border-[#E9ECEF] text-[#495057] focus:ring-2 focus:ring-[#A5D8FF]" 
                   />
@@ -276,7 +311,18 @@ const Dashboard = () => {
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })} 
                     rows={4} 
                     required 
-                    className="bg-[#F1F3F5] border-[#E9ECEF] text-[#495057] focus:ring-2 focus:ring-[#A5D8FF]" 
+                    className="bg-[#F1F3F5] border-[#E9ECEF] text-[#495057] focus:ring-2 focus:ring-[#A5D8FF] min-h-[120px]" 
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="content" className="text-[#495057]">Content*</Label>
+                  <Textarea 
+                    id="content" 
+                    value={formData.content} 
+                    onChange={(e) => setFormData({ ...formData, content: e.target.value })} 
+                    rows={12} 
+                    required 
+                    className="bg-[#F1F3F5] border-[#E9ECEF] text-[#495057] focus:ring-2 focus:ring-[#A5D8FF] min-h-[300px]" 
                   />
                 </div>
                 <div className="space-y-2">
@@ -289,29 +335,40 @@ const Dashboard = () => {
                     className="bg-[#F1F3F5] border-[#E9ECEF] file:text-[#495057] file:bg-[#E9ECEF] file:border-0 file:mr-4 file:px-4 file:py-2 file:rounded-md" 
                   />
                 </div>
-                <div className="flex justify-end gap-3 pt-4">
-                  <Button 
-                    type="button" 
-                    onClick={() => setDialogOpen(false)} 
-                    className="bg-[#FFC9C9] text-white hover:bg-[#FF8787]"
-                  >
-                    Cancel
-                  </Button>
-                  <Button 
-                    type="submit" 
-                    disabled={isAddingBlog} 
-                    style={buttonGradient}
-                    className="hover:shadow-lg hover:shadow-[#A5D8FF]/20"
-                  >
-                    {isAddingBlog ? (
-                      <>
-                        <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                        {editingBlog ? 'Updating...' : 'Creating...'}
-                      </>
-                    ) : (
-                      editingBlog ? 'Update Post' : 'Create Post'
-                    )}
-                  </Button>
+                <div className="flex items-center justify-between pt-2 pb-4">
+                  <Label htmlFor="published" className="text-[#495057]">Published</Label>
+                  <Switch
+                    id="published"
+                    checked={formData.published}
+                    onCheckedChange={(checked) => setFormData({ ...formData, published: checked })}
+                    className="data-[state=checked]:bg-[#A5D8FF] data-[state=unchecked]:bg-[#E9ECEF]"
+                  />
+                </div>
+                <div className="sticky bottom-0 bg-white pt-4 pb-2 border-t border-[#E9ECEF]">
+                  <div className="flex justify-end gap-3">
+                    <Button 
+                      type="button" 
+                      onClick={() => setDialogOpen(false)} 
+                      className="bg-[#FFC9C9] text-white hover:bg-[#FF8787]"
+                    >
+                      Cancel
+                    </Button>
+                    <Button 
+                      type="submit" 
+                      disabled={isAddingBlog} 
+                      style={buttonGradient}
+                      className="hover:shadow-lg hover:shadow-[#A5D8FF]/20"
+                    >
+                      {isAddingBlog ? (
+                        <>
+                          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                          {editingBlog ? 'Updating...' : 'Creating...'}
+                        </>
+                      ) : (
+                        editingBlog ? 'Update Post' : 'Create Post'
+                      )}
+                    </Button>
+                  </div>
                 </div>
               </form>
             </DialogContent>
@@ -385,18 +442,31 @@ const Dashboard = () => {
                 <CardDescription className="text-[#868E96] line-clamp-2">
                   {blog.description}
                 </CardDescription>
+                <p className="text-sm text-[#A5D8FF] mt-2">
+                  By: {blog.author || 'Admin'}
+                </p>
               </CardHeader>
               <CardContent>
-                <div className="flex justify-between items-center">
-                  <p className="text-sm text-[#A5D8FF]">
-                    {new Date(blog.created_at).toLocaleDateString('en-US', { 
-                      year: 'numeric', 
-                      month: 'short', 
-                      day: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    })}
-                  </p>
+                <div className="flex flex-col gap-4">
+                  <div className="flex justify-between items-center">
+                    <p className="text-sm text-[#A5D8FF]">
+                      {new Date(blog.created_at).toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'short', 
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </p>
+                    <Button 
+                      onClick={() => navigate(`/blog/${blog.id}`)} 
+                      size="sm" 
+                      variant="ghost"
+                      className="text-xs text-[#A5D8FF] hover:bg-[#A5D8FF]/10"
+                    >
+                      Read More
+                    </Button>
+                  </div>
                   <div className="flex gap-2">
                     <Button 
                       onClick={() => togglePublish(blog.id, blog.published)} 
@@ -412,7 +482,10 @@ const Dashboard = () => {
                         setFormData({ 
                           title: blog.title, 
                           description: blog.description, 
-                          image: null 
+                          content: blog.content,
+                          image: null,
+                          published: blog.published,
+                          author: blog.author
                         }); 
                         setDialogOpen(true); 
                       }} 

@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+*
+{
+   font-family: "Inter", sans-serif;
+}
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -103,3 +107,60 @@
     background-image: linear-gradient(135deg, #4F5BFF, #171a48, #000000);
   }
 }
+/* Add this to your CSS */
+.hero-section {
+  position: relative;
+  height: 35vh; /* Reduced from 100vh to better fit as a header */
+  width: 100%;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Arial", sans-serif;
+  color: white;
+}
+
+.animated-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Changed from 1 to 0 to ensure content stays above */
+}
+
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  animation: float ease-in-out infinite;
+  opacity: 0.7; /* Added initial opacity */
+}
+
+/* Keep all your existing circle and floating-element styles */
+.circle-1 { width: 80px; height: 80px; left: 10%; top: 20%; animation-delay: 0s; animation-duration: 8s; }
+.circle-2 { width: 120px; height: 120px; right: 15%; top: 30%; animation-delay: 2s; animation-duration: 10s; }
+/* ... rest of your circle styles ... */
+
+.floating-element {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  animation: slowFloat 15s ease-in-out infinite;
+}
+/* ... rest of your floating-element styles ... */
+
+/* Keep your existing animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+  25% { transform: translateY(-20px) rotate(90deg); opacity: 0.4; }
+  50% { transform: translateY(-40px) rotate(180deg); opacity: 0.6; }
+  75% { transform: translateY(-20px) rotate(270deg); opacity: 0.3; }
+}
+
+@keyframes slowFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-30px) rotate(180deg); }
+}
+

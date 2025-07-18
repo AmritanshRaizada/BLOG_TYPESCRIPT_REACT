@@ -9,6 +9,7 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Blog from "./pages/Blog";
 import NotFound from "./pages/NotFound";
+import BlogDetail from "./pages/BlogDetail";
 import { ProtectedRoute } from '@/components/protected-route';
 
 const queryClient = new QueryClient();
@@ -33,7 +34,9 @@ const App = () => (
             />
             <Route path="/blog" element={<Blog />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
+            
+            <Route path="/blog/:id" element={<BlogDetail />} />
+          <Route path="/blog" element={<Blog />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
