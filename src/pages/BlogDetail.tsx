@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import { Button } from '@/components/ui/button';
+import Navbar from './Navbar';
 
 interface Blog {
   id: string;
@@ -14,6 +15,8 @@ interface Blog {
   content: string;
   image_url: string | null;
   created_at: string;
+  author_id: string;
+  author?: string;
 }
 
 const BlogDetail = () => {
@@ -26,7 +29,7 @@ const BlogDetail = () => {
     const fetchBlog = async () => {
       const { data, error } = await supabase
         .from('blogs')
-        .select('*')
+        .select('*, content')
         .eq('id', id)
         .single();
 
@@ -58,7 +61,8 @@ const BlogDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white px-4 py-10">
+    <div className="min-h-screen bg-black text-white px-4 py-10" style={{ paddingTop: '8.5vh' }}>
+      <Navbar />
       <div className="max-w-4xl mx-auto mb-6">
         <Button
           onClick={() => navigate(-1)}
