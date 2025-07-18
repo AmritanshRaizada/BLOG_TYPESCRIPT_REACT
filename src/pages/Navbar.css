@@ -1,0 +1,418 @@
+       * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', sans-serif;
+        /* font-weight: 600 !important; */
+
+        }
+
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: flex-start;
+        height: 8.5vh;
+        width: 100%;
+        padding: 1vh 10vw;
+        justify-content: space-between;
+        background-color: #ffffff;
+        z-index: 1000;
+        transition: top 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-img {
+        margin-top: 0vh;
+        height: 6.1vh;
+    width: 6.5vw;
+        transition: transform 0.3s ease;
+      }
+
+      
+
+      .nav-part2 {
+        display: flex;
+        gap: 0.8vw;
+        align-items: flex-start;
+        padding: 1vh 0;
+        position: relative;
+        z-index: 10;
+        margin-left: 36vw;
+      }
+
+      .nav-elem {
+        position: relative;
+        cursor: pointer;
+      }
+
+      .dropdown {
+        position: relative;
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 4.5vw;
+        left: 0;
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        padding: 1vw;
+        border-radius: 8px;
+        display: none;
+        flex-direction: column;
+        gap: 0.5vw;
+        z-index: 999;
+        width: max-content;
+        min-width: 15vw;
+      }
+
+      .dropdown-menu p {
+        font-size: 0.73vw;
+        font-weight: 600;
+        margin: 0;
+        padding: 0.3vw 2vw;
+        padding-right: 3vw;
+        white-space: nowrap;
+        color: #000000;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+
+      .dropdown-menu p:hover {
+        background-color: #0ba34e10;
+        color: #0BA34E;
+      }
+
+      .dropdown:hover .dropdown-menu {
+        display: flex;
+      }
+
+      #nav-backdrop {
+        position: fixed;
+        top: 6.5vh;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 6.5vh);
+        background: rgba(0, 0, 0, 0.48);
+        backdrop-filter: blur(2px);
+        z-index: 999;
+        display: none;
+        transition: all 0.3s ease;
+      }
+
+      .nav-part2 h4 {
+        font-size: 0.83vw;
+        text-transform: uppercase;
+        font-weight: 400;
+        margin-bottom: 2.6vw;
+        padding: 0.5vw;
+        color: #000000;
+        transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        position: relative;
+        font-weight: 600 !important;
+
+      }
+
+      .nav-part2 h4:hover {
+        transform: translateY(-2px);
+        text-shadow: 0 2px 4px rgba(11, 163, 78, 0.2);
+        color: #0BA34E;
+      }
+
+      .nav-part2 h4::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 1.5vw;
+        left: 50%;
+        background-color: #0BA34E;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+      }
+
+      .nav-part2 h4:hover::after {
+        width: 80%;
+      }
+
+      nav button {
+        margin-block: 0.1rem;
+        background: linear-gradient(135deg, #4F5BFF, #252525, #000000);
+        color: white;
+        display: flex;
+        align-items: center;
+        padding: 8px 17px;
+        font-size: 0.85vw;
+        text-transform: uppercase;
+        font-weight: 700;
+        border-radius: 50px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      nav button:hover {
+        background-color: #000000;
+      }
+
+      nav button svg {
+        height: 1.1vw;
+        margin-left: 0.6vw;
+        transition: all 0.4s ease;
+      }
+
+      nav button:hover svg {
+        transform: scale(1.3) rotate(10deg);
+      }
+
+      /* Hamburger menu */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 25px;
+        height: 18px;
+        cursor: pointer;
+        z-index: 1100;
+      }
+
+      .bar {
+        height: 3px;
+        width: 100%;
+        background-color: #000;
+        border-radius: 2px;
+      }
+
+      .mobile-menu {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 8.5vh;
+        right: -80%;
+        width: 80%;
+        height: 100vh;
+        background-color: #fff;
+        z-index: 1099;
+        padding: 2vh 5vw;
+        box-shadow: -4px 0 12px rgba(0, 0, 0, 0.15);
+        transition: right 0.3s ease-in-out;
+      }
+
+      .mobile-menu.show {
+        right: 0;
+      }
+
+      /* Optional overlay backdrop for better effect */
+      .mobile-backdrop {
+        display: none;
+        position: fixed;
+        top: 8.5vh;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1098;
+      }
+
+      .mobile-backdrop.active {
+        display: block;
+      }
+
+      .mobile-menu a {
+        padding: 1vh 0;
+        font-size: 3vw;
+        font-weight: 600;
+        color: #000;
+        text-decoration: none;
+        border-bottom: 1px solid #eee;
+      }
+
+      .mobile-menu a:last-child {
+        border-bottom: none;
+      }
+
+      @media (max-width: 768px) {
+        .nav-part2,
+        .nav-elem,
+        .dropdown,
+        .dropdown-menu,
+        #nav-bottom {
+          display: none !important;
+        }
+
+        nav {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1.5vh 5vw;
+        }
+
+        .logo-container {
+          display: flex;
+          gap: 8px;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .logo-img {
+          width: 23vw;
+          height: 5.4vh;
+          margin-bottom: 0vh;
+        }
+
+        nav button svg {
+          display: none;
+        }
+
+        nav button {
+          background: linear-gradient(135deg, #4F5BFF, #2b2c2c, #000000);
+          font-size: 3.5vw;
+          padding: 5px 11px;
+          margin-bottom: 1vh;
+        }
+
+        .hamburger {
+          display: flex;
+        }
+
+        .mobile-menu.show {
+          display: flex;
+        }
+        .show {
+          background: rgba(255, 255, 255, 0.6);
+          -webkit-backdrop-filter: blur(10px);
+          padding: 20px;
+          backdrop-filter: blur(10px);
+        }
+
+        #primary-contact-btn {
+          display: none;
+        }
+      }
+        @media (min-width: 769px) and (max-width: 1024px) {
+        nav {
+          padding: 1.2vh 6vw;
+          height: 9vh;
+        }
+
+        .logo-img {
+          width: 14vw;
+          height: 6vh;
+        }
+
+        .nav-part2 {
+          gap: 1.5vw;
+          margin-left: 10vw;
+        }
+
+        .nav-part2 h4 {
+          font-size: 1.5vw;
+          margin-bottom: 1.5vw;
+        }
+
+        .nav-part2 h4::after {
+          bottom: 1vw;
+        }
+
+        nav button {
+          font-size: 1.6vw;
+          padding: 6px 14px;
+        }
+
+        nav button svg {
+          height: 2vw;
+          margin-left: 0.8vw;
+        }
+
+        .dropdown-menu {
+          padding: 1.5vw;
+          min-width: 20vw;
+        }
+
+        .dropdown-menu p {
+          font-size: 1.2vw;
+          padding: 0.5vw 1.5vw;
+        }
+
+        .hamburger {
+          display: none;
+        }
+
+        .mobile-menu,
+        .mobile-backdrop {
+          display: none !important;
+        }
+
+        #primary-contact-btn {
+          display: flex !important;
+        }
+      @media (max-width: 1366px) {
+        nav {
+          padding: 1.2vh 6vw;
+          height: 9vh;
+        }
+
+        .logo-img {
+             height: 7.3vh;
+          width: 19.5vw;
+        }
+
+        .nav-part2 {
+          gap: 1.2vw;
+          margin-left: 15vw;
+        }
+
+        .nav-part2 h4 {
+          font-size: 1.2vw;
+          margin-bottom: 1.2vw;
+        }
+
+        .nav-part2 h4::after {
+          bottom: 1vw;
+        }
+
+        nav button {
+          font-size: 1.3vw;
+          padding: 6px 14px;
+        }
+
+        nav button svg {
+          height: 1.5vw;
+          margin-left: 0.8vw;
+        }
+
+        .dropdown-menu {
+          padding: 1.2vw;
+          min-width: 18vw;
+        }
+
+        .dropdown-menu p {
+          font-size: 1.1vw;
+          padding: 0.5vw 1.5vw;
+        }
+
+        .hamburger {
+          display: none;
+        }
+
+        .mobile-menu,
+        .mobile-backdrop {
+          display: none !important;
+        }
+
+        #primary-contact-btn {
+          display: flex !important;
+        }
+      }
+
+      }

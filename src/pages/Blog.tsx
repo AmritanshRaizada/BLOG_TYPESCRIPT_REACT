@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate, Link } from 'react-router-dom';
 import HeroBackground from './HeroBackground';
+import Navbar from './Navbar';
 
 interface Blog {
   id: string;
@@ -98,6 +99,7 @@ const Blog = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-purple-950 to-black text-white">
+      <Navbar />
       {/* Header with HeroBackground */}
       <div className="relative overflow-hidden hero-section">
         <HeroBackground />
