@@ -14,7 +14,7 @@ interface Blog {
   published: boolean;
   created_at: string;
   author_id: string;
-  author: string;
+  author?: string; // Make author optional
 }
 
 const Blog = () => {
@@ -83,25 +83,30 @@ const Blog = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-black">
-        <div className="text-center space-y-4">
-          <div className="w-12 h-12 border-4 border-purple-500/50 border-t-purple-500 rounded-full animate-spin mx-auto" />
-          <p className="text-xl text-purple-200">Loading articles...</p>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-purple-950 to-black">
+        <div className="text-center space-y-6">
+          <div className="relative">
+            <div className="w-16 h-16 border-4 border-purple-500/30 border-t-purple-400 rounded-full animate-spin mx-auto" />
+            <div className="absolute inset-0 w-12 h-12 border-4 border-green-500/30 border-b-green-400 rounded-full animate-spin mx-auto mt-2 ml-2" 
+                 style={{ animationDirection: 'reverse', animationDuration: '1.5s' }} />
+          </div>
+          <p className="text-xl text-purple-200 font-medium">Loading articles...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-gradient-to-br from-black via-purple-950 to-black text-white">
       {/* Header with HeroBackground */}
       <div className="relative overflow-hidden hero-section">
         <HeroBackground />
         <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay" />
-        <div className="container mx-auto px-4 py-16 relative z-10">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/20 to-black/60" />
+        <div className="container mx-auto px-4 py-20 relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div className="w-full text-center">
-              <h1 className="text-4xl font-bold md:text-5xl mb-4 text-white">
+              <h1 className="text-5xl font-bold md:text-6xl mb-6 bg-gradient-to-r from-purple-400 via-green-400 to-purple-400 bg-clip-text text-transparent">
                 BLOGS
               </h1>
               <p className="text-xl text-purple-200 max-w-2xl mx-auto">
@@ -112,7 +117,7 @@ const Blog = () => {
             {user && (
               <Button
                 onClick={() => navigate('/dashboard')}
-                className="bg-gradient-to-r from-[#4F5BFF] to-[#171a48] hover:from-[#5F6BFF] hover:to-[#272a58] text-white shadow-lg shadow-[#4F5BFF]/20"
+                className="bg-gradient-to-r from-purple-600 to-green-600 hover:from-purple-700 hover:to-green-700 text-white shadow-lg shadow-purple-500/25 transition-all duration-300 hover:scale-105"
               >
                 Go to Dashboard
               </Button>
@@ -129,7 +134,7 @@ const Blog = () => {
               {currentBlogs.map((blog) => (
                 <Card 
                   key={blog.id} 
-                  className="bg-gray-900/50 border border-gray-800 hover:border-blue-500/50 transition-all hover:shadow-lg hover:shadow-blue-500/10 overflow-hidden group"
+                  className="bg-gradient-to-b from-purple-900/30 to-black/60 border border-purple-800/50 hover:border-green-500/60 transition-all duration-500 hover:shadow-xl hover:shadow-green-500/20 overflow-hidden group backdrop-blur-sm"
                 >
                   {blog.image_url && (
                     <div className="aspect-video overflow-hidden relative">
@@ -145,21 +150,22 @@ const Blog = () => {
                     </div>
                   )}
                   <CardHeader>
-                    <div className="flex justify-between items-center text-sm text-blue-400">
-                      <span>Published By: {blog.author || 'Admin'}</span>
-                  
+                    <div className="flex justify-between items-center text-sm text-green-400">
+                      <span className="bg-green-400/10 px-3 py-1 rounded-full border border-green-400/20">
+                        Published By: {blog.author || 'Admin'}
+                      </span>
                     </div>
-                    <CardTitle className="text-xl text-white transition-colors mt-2">
+                    <CardTitle className="text-xl text-white transition-colors mt-2 group-hover:text-green-300">
                       {blog.title}
                     </CardTitle>
-                    <CardDescription className="text-white">
+                    <CardDescription className="text-purple-200">
                       {blog.description}
                     </CardDescription>
                     
                     <div className="flex justify-between items-center mt-4">
                       <Link
                         to={`/blog/${blog.id}`}
-                        className="text-sm text-blue-600 border border-blue-600 px-3 py-1 rounded hover:bg-blue-600 hover:text-white transition"
+                        className="text-sm text-green-400 border border-green-400/50 px-3 py-1 rounded-full hover:bg-green-400 hover:text-black transition-all duration-300"
                       >
                         Read More
                       </Link>
@@ -177,11 +183,11 @@ const Blog = () => {
                   <button
                     key={page}
                     onClick={() => paginate(page)}
-                    className={`border px-3 py-1 rounded ${
+                    className={`px-4 py-2 rounded-full font-medium transition-all duration-300 ${
                       page === currentPage 
-                        ? 'bg-blue-900 text-white' 
-                        : 'bg-white text-black'
-                    } hover:bg-blue-700 hover:text-white transition`}
+                        ? 'bg-gradient-to-r from-purple-600 to-green-600 text-white shadow-lg shadow-purple-500/30' 
+                        : 'bg-purple-900/30 text-purple-200 border border-purple-700/50 hover:bg-purple-700/50 hover:text-white'
+                    }`}
                   >
                     {page}
                   </button>
@@ -190,14 +196,14 @@ const Blog = () => {
             )}
           </>
         ) : (
-          <div className="text-center py-16 border border-dashed border-gray-800 rounded-xl bg-gray-900/20">
+          <div className="text-center py-16 border border-dashed border-purple-800/50 rounded-xl bg-gradient-to-b from-purple-900/20 to-black/40 backdrop-blur-sm">
             <div className="max-w-md mx-auto">
-              <h3 className="text-xl font-medium text-blue-200 mb-2">No articles yet</h3>
-              <p className="text-blue-300/70 mb-6">We're working on some great content for you</p>
+              <h3 className="text-xl font-medium text-purple-200 mb-2">No articles yet</h3>
+              <p className="text-purple-300/70 mb-6">We're working on some great content for you</p>
               {!user && (
                 <Button 
                   onClick={() => navigate('/auth')}
-                  className="bg-gradient-to-r from-[#4F5BFF] to-[#171a48] hover:from-[#5F6BFF] hover:to-[#272a58]"
+                  className="bg-gradient-to-r from-purple-600 to-green-600 hover:from-purple-700 hover:to-green-700 transition-all duration-300"
                 >
                   Sign In
                 </Button>

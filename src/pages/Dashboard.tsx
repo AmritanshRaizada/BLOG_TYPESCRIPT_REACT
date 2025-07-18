@@ -76,7 +76,7 @@ const Dashboard = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setBlogs(data || []);
+      // setBlogs(data || []);
     } catch (error) {
       console.error('Error fetching blogs:', error);
       toast({ title: 'Error', description: 'Failed to fetch blogs', variant: 'destructive' });
