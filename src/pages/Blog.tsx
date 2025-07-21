@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useNavigate, Link } from 'react-router-dom';
 import HeroBackground from './HeroBackground';
 import Navbar from './Navbar';
+import Footer from './Footer';
 
 interface Blog {
   id: string;
@@ -210,6 +211,7 @@ const Blog = () => {
           </div>
         )}
       </div>
+        <Footer />
     </div>
   );
 };

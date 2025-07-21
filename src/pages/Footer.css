@@ -1,0 +1,85 @@
+.footer-section {
+  background-color: #f9f9f9;
+  padding: 2rem;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+}
+
+.footer-logo {
+  height: 45px;
+  width: 60px;
+  margin-bottom: 15px;
+}
+
+.footer-address p,
+.footer-address a {
+  color: #000;
+  text-decoration: none;
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+}
+
+.icon-red {
+  color: #B6000C !important;
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.footer-heading {
+  color: #b6000c;
+  margin-top: 0;
+  font-weight: bold;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-links a {
+  color: #000;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 1rem;
+  margin-top: 10px;
+}
+
+.social-icon {
+  background-color: black;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  font-size: 20px;
+}
+
+.social-icon.linkedin:hover {
+  background-color: #0a66c2;
+}
+
+.social-icon.instagram:hover {
+  background-color: #e1306c;
+}
+
+.social-icon.whatsapp:hover {
+  background-color: #61CE70;
+}
+
+.copyright {
+  padding-top: 20px;
+  border-top: 1px solid black;
+  font-weight: 600;
+  color: #000;
+}
