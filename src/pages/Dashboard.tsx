@@ -22,7 +22,7 @@ interface Blog {
   published: boolean;
   created_at: string;
   author_id: string;
-  author: string;
+  author?: string;
 }
 
 const Dashboard = () => {
@@ -72,11 +72,11 @@ const Dashboard = () => {
     try {
       const { data, error } = await supabase
         .from('blogs')
-        .select('*')
+        .select('id, title, description, content, image_url, published, created_at, author_id, author')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      // setBlogs(data || []);
+      setBlogs(data || []);
     } catch (error) {
       console.error('Error fetching blogs:', error);
       toast({ title: 'Error', description: 'Failed to fetch blogs', variant: 'destructive' });

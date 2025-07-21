@@ -1,0 +1,3 @@
+ALTER TABLE blogs
+ADD COLUMN content TEXT,
+ADD COLUMN author TEXT;
