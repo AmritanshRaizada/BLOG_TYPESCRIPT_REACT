@@ -57,21 +57,32 @@ const Navbar = () => {
       </nav>
 
       {/* Mobile Menu (external links) */}
-      <div className={`mobile-menu ${mobileMenuOpen ? 'show' : ''}`}>
-        <a href="https://visionandsolutions.com/web.html"><p>Web Design & Development</p></a>
-        <a href="https://visionandsolutions.com/SEO.html"><p>Search Engine Optimization</p></a>
-        <a href="https://visionandsolutions.com/PPC.html"><p>Pay-Per-Click</p></a>
-        <a href="https://visionandsolutions.com/Meta.html"><p>Meta Ads</p></a>
-        <a href="https://visionandsolutions.com/influencer.html"><p>Influencer Marketing</p></a>
-        <a href="https://visionandsolutions.com/whatsappMarketing.html"><p>Whatsapp Marketing</p></a>
-        <a href="https://visionandsolutions.com/broadcasting.html"><p>Broadcasting Advertising</p></a>
-        <a href="https://visionandsolutions.com/NewsPPPr.html"><p>Newspaper Printing</p></a>
-        <a href="https://visionandsolutions.com/BillBo.html"><p>Billboard Advertisement</p></a>
-        <a href="https://visionandsolutions.com/ourWork.html"><p>OUR WORK</p></a>
-        <a href="https://visionandsolutions.com/About.html"><p>ABOUT US</p></a>
-        <a href="https://blog.visionandsolutions.com/"><p>BLOGS</p></a>
-        <Link to="https://visionandsolutions.com/contact.html"><p>CONTACT US</p></Link>
+<div className={`mobile-menu ${mobileMenuOpen ? 'show' : ''}`}>
+  {[
+    ["Web Design & Development", "web.html"],
+    ["Search Engine Optimization", "SEO.html"],
+    ["Pay-Per-Click", "PPC.html"],
+    ["Meta Ads", "Meta.html"],
+    ["Influencer Marketing", "influencer.html"],
+    ["Whatsapp Marketing", "whatsappMarketing.html"],
+    ["Broadcasting Advertising", "broadcasting.html"],
+    ["Newspaper Printing", "NewsPPPr.html"],
+    ["Billboard Advertisement", "BillBo.html"],
+    ["OUR WORK", "ourWork.html"],
+    ["ABOUT US", "About.html"],
+    ["BLOGS", "https://blog.visionandsolutions.com/"],
+    ["CONTACT US", "contact.html"],
+  ].map(([label, url]) => (
+    <a href={`https://visionandsolutions.com/${url}`} key={label}>
+      <div className="menu-item">
+        <span>{label}</span>
+        <i className="ri-arrow-drop-right-line arrow-icon"></i>
       </div>
+    </a>
+  ))}
+</div>
+
+
     </>
   );
 };

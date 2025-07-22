@@ -38,7 +38,7 @@
         transition: transform 0.3s ease;
       }
 
-      
+
 
       .nav-part2 {
         display: flex;
@@ -416,3 +416,22 @@
       }
 
       }
+
+.mobile-menu a {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 1.7vh 0 !important;
+  font-size: 3.3vw !important;
+  font-weight: 600 !important;
+  color: #000 !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid #eee !important;
+  line-height: 1.3 !important;
+}
+
+.arrow-icon {
+  font-size: 4.2vw !important;
+  color: #555 !important;
+  flex-shrink: 0 !important;
+}

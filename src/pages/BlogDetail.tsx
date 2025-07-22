@@ -66,7 +66,7 @@ const BlogDetail = () => {
       <div className="max-w-4xl mx-auto mb-6">
         <Button
           onClick={() => navigate(-1)}
-          className="bg-gray-800 text-white hover:bg-gray-700"
+          className=" text-blue-600 border bg-gray-900 mt-4 text-white px-3 py-1 rounded hover:bg-blue-600 hover:text-white transition"
         >
           ← Back
         </Button>
