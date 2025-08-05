@@ -1,12 +1,18 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import ShareCard from '@/components/sharedcard';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate, Link } from 'react-router-dom';
 import HeroBackground from './HeroBackground';
-import Navbar from './Navbar';
-import Footer from './Footer';
+import { Share2 } from 'lucide-react';
 
 interface Blog {
   id: string;
@@ -25,6 +31,7 @@ const Blog = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [shareBlogId, setShareBlogId] = useState<string | null>(null);
   const blogsPerPage = 6;
 
   const fetchBlogs = async () => {
@@ -36,17 +43,12 @@ const Blog = () => {
         .eq('published', true)
         .order('created_at', { ascending: false });
 
-      if (error) {
-        throw error;
-      }
-
-      // Type assertion with proper error handling
+      if (error) throw error;
       const blogData = data as Blog[];
       setBlogs(blogData || []);
-
     } catch (error) {
       console.error('Error fetching blogs:', error);
-      setBlogs([]); // Ensure empty array on error
+      setBlogs([]);
     } finally {
       setLoading(false);
     }
@@ -54,7 +56,6 @@ const Blog = () => {
 
   useEffect(() => {
     fetchBlogs();
-
     const channel = supabase
       .channel('schema-db-changes')
       .on(
@@ -62,7 +63,7 @@ const Blog = () => {
         {
           event: '*',
           schema: 'public',
-          table: 'blogs'
+          table: 'blogs',
         },
         () => {
           fetchBlogs();
@@ -75,7 +76,6 @@ const Blog = () => {
     };
   }, []);
 
-  // Pagination calculations
   const indexOfLastBlog = currentPage * blogsPerPage;
   const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
   const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
@@ -83,34 +83,33 @@ const Blog = () => {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
+  const getShareUrl = (blogId: string) => {
+    return `${window.location.origin}/blog/${blogId}`;
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-black">
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-center space-y-4">
           <div className="w-12 h-12 border-4 border-purple-500/50 border-t-purple-500 rounded-full animate-spin mx-auto" />
-          <p className="text-xl text-purple-200">Loading Blogs</p>
+          <p className="text-xl text-purple-500">Loading articles...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <Navbar />
-
-      {/* Hero Section */}
-      {/* Header with HeroBackground */}
-      <div className="relative overflow-hidden hero-section" style={{ marginTop: '8.5vh' }}>
+    <div className="min-h-screen bg-black text-white relative">
+      {/* Header */}
+      <div className="relative overflow-hidden hero-section">
         <HeroBackground />
         <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay" />
         <div className="container mx-auto px-4 py-16 relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-            <div className="w-full text-center">
-              <h1 className="text-4xl font-bold md:text-5xl mb-4 text-white">
-                BLOGS
-              </h1>
-              <p className="text-xl text-purple-200 max-w-2xl mx-auto">
-                We keep you posted on our development   
+            <div className="w-full text-center ml-40">
+              <h1 className="text-4xl font-bold md:text-5xl mb-4 text-white">BLOGS</h1>
+              <p className="text-xl text-purple-200 max-w-2xl ml-44">
+                We keep you posted on our development
               </p>
             </div>
 
@@ -127,55 +126,67 @@ const Blog = () => {
       </div>
 
       {/* Blog Grid */}
-      <div className="container mx-auto px-6 py-16">
+      <div className="container mx-auto px-14 py-16 bg-[#fffafa] text-black">
         {blogs.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
               {currentBlogs.map((blog) => (
-                <Card 
-                  key={blog.id} 
-                  className="bg-gray-900/50 border border-gray-800 hover:border-blue-500/50 transition-all hover:shadow-lg hover:shadow-blue-500/10 overflow-hidden group"
-                >
-                  {blog.image_url && (
-                    <div className="aspect-video overflow-hidden relative">
-                      <img
-                        src={blog.image_url}
-                        alt={blog.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = 'none';
-                        }}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div key={blog.id} className="relative h-full">
+                  <Link to={`/blog/${blog.id}`} className="group h-full">
+                    <Card className="flex flex-col justify-between h-full bg-white border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition-all overflow-hidden">
+                      {blog.image_url && (
+                        <div className="aspect-video overflow-hidden relative">
+                          <img
+                            src={blog.image_url}
+                            alt={blog.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display = 'none';
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </div>
+                      )}
+                      <CardHeader>
+                        <div className="flex justify-between items-center text-sm text-gray-600">
+                          <span>Published By: {blog.author || 'Admin'}</span>
+                        </div>
+                        <CardTitle className="text-xl text-black mt-2">{blog.title}</CardTitle>
+                        <CardDescription className="text-gray-700">
+                          {blog.description}
+                        </CardDescription>
+                      </CardHeader>
+
+                      <CardContent>
+                        <div className="flex justify-between items-center mt-4 space-x-2">
+                          <span className="text-sm text-blue-600 border border-blue-600 px-3 py-1 rounded cursor-pointer group-hover:bg-blue-600 group-hover:text-white transition">
+                            Read More
+                          </span>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setShareBlogId(blog.id === shareBlogId ? null : blog.id);
+                            }}
+                            className="border-gray-300 text-gray-600 hover:text-white hover:bg-gray-800"
+                          >
+                            <Share2 size={18} />
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+
+                  {shareBlogId === blog.id && (
+                    <div className="absolute top-4 right-4 z-50">
+                      <ShareCard url={getShareUrl(blog.id)} onClose={() => setShareBlogId(null)} />
                     </div>
                   )}
-                  <CardHeader>
-                    <div className="flex justify-between items-center text-sm text-blue-400">
-                      <span>Published By: {blog.author || 'Admin'}</span>
-
-                    </div>
-                    <CardTitle className="text-xl text-white transition-colors mt-2">
-                      {blog.title}
-                    </CardTitle>
-                    <CardDescription className="text-white">
-                      {blog.description}
-                    </CardDescription>
-
-                    <div className="flex justify-between items-center mt-4">
-                      <Link
-                        to={`/blog/${blog.id}`}
-                        className="text-sm text-blue-600 border border-blue-600 px-3 py-1 rounded hover:bg-blue-600 hover:text-white transition"
-                      >
-                        Read More
-                      </Link>
-                    </div>
-                  </CardHeader>
-                  <CardContent />
-                </Card>
+                </div>
               ))}
             </div>
 
-            {/* Pagination */}
             {totalPages > 1 && (
               <div className="flex justify-center mt-10 space-x-2">
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
@@ -183,8 +194,8 @@ const Blog = () => {
                     key={page}
                     onClick={() => paginate(page)}
                     className={`border px-3 py-1 rounded ${
-                      page === currentPage 
-                        ? 'bg-blue-900 text-white' 
+                      page === currentPage
+                        ? 'bg-blue-900 text-white'
                         : 'bg-white text-black'
                     } hover:bg-blue-700 hover:text-white transition`}
                   >
@@ -195,14 +206,14 @@ const Blog = () => {
             )}
           </>
         ) : (
-          <div className="text-center py-16 border border-dashed border-gray-800 rounded-xl bg-gray-900/20">
+          <div className="text-center py-16 border border-dashed border-gray-400 rounded-xl bg-gray-100">
             <div className="max-w-md mx-auto">
-              <h3 className="text-xl font-medium text-blue-200 mb-2">No articles yet</h3>
-              <p className="text-blue-300/70 mb-6">We're working on some great content for you</p>
+              <h3 className="text-xl font-medium text-gray-700 mb-2">No articles yet</h3>
+              <p className="text-gray-600 mb-6">We're working on some great content for you</p>
               {!user && (
-                <Button 
+                <Button
                   onClick={() => navigate('/auth')}
-                  className="bg-gradient-to-r from-[#4F5BFF] to-[#171a48] hover:from-[#5F6BFF] hover:to-[#272a58]"
+                  className="bg-gradient-to-r from-[#4F5BFF] to-[#171a48] hover:from-[#5F6BFF] hover:to-[#272a58] text-white"
                 >
                   Sign In
                 </Button>
@@ -211,7 +222,6 @@ const Blog = () => {
           </div>
         )}
       </div>
-        <Footer />
     </div>
   );
 };
