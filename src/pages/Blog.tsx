@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import ShareCard from '@/components/sharedcard';
+import ShareCard from '../components/ui/sharedcard.tsx';
+import Navbar from './Navbar.tsx';
+import Footer from './Footer.tsx';
 import {
   Card,
   CardContent,
@@ -89,7 +91,7 @@ const Blog = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="min-h-screen flex items-center justify-center bg-[#e8e8e8]">
         <div className="text-center space-y-4">
           <div className="w-12 h-12 border-4 border-purple-500/50 border-t-purple-500 rounded-full animate-spin mx-auto" />
           <p className="text-xl text-purple-500">Loading articles...</p>
@@ -99,129 +101,139 @@ const Blog = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white relative">
-      {/* Header */}
-      <div className="relative overflow-hidden hero-section">
-        <HeroBackground />
-        <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay" />
-        <div className="container mx-auto px-4 py-16 relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-            <div className="w-full text-center ml-40">
-              <h1 className="text-4xl font-bold md:text-5xl mb-4 text-white">BLOGS</h1>
-              <p className="text-xl text-purple-200 max-w-2xl ml-44">
-                We keep you posted on our development
-              </p>
-            </div>
+    <div className="min-h-screen flex flex-col bg-[#e8e8e8] text-black relative">
+      {/* Fixed Navbar */}
+      <Navbar className="z-50 fixed top-0 left-0 w-full bg-white shadow" />
 
-            {user && (
-              <Button
-                onClick={() => navigate('/dashboard')}
-                className="bg-gradient-to-r from-[#4F5BFF] to-[#171a48] hover:from-[#5F6BFF] hover:to-[#272a58] text-white shadow-lg shadow-[#4F5BFF]/20"
-              >
-                Go to Dashboard
-              </Button>
-            )}
-          </div>
-        </div>
-      </div>
+      {/* Content Padding */}
+      <div className="pt-12 flex-grow">
 
-      {/* Blog Grid */}
-      <div className="container mx-auto px-14 py-16 bg-[#fffafa] text-black">
-        {blogs.length > 0 ? (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-              {currentBlogs.map((blog) => (
-                <div key={blog.id} className="relative h-full">
-                  <Link to={`/blog/${blog.id}`} className="group h-full">
-                    <Card className="flex flex-col justify-between h-full bg-white border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition-all overflow-hidden">
-                      {blog.image_url && (
-                        <div className="aspect-video overflow-hidden relative">
-                          <img
-                            src={blog.image_url}
-                            alt={blog.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).style.display = 'none';
-                            }}
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </div>
-                      )}
-                      <CardHeader>
-                        <div className="flex justify-between items-center text-sm text-gray-600">
-                          <span>Published By: {blog.author || 'Admin'}</span>
-                        </div>
-                        <CardTitle className="text-xl text-black mt-2">{blog.title}</CardTitle>
-                        <CardDescription className="text-gray-700">
-                          {blog.description}
-                        </CardDescription>
-                      </CardHeader>
-
-                      <CardContent>
-                        <div className="flex justify-between items-center mt-4 space-x-2">
-                          <span className="text-sm text-blue-600 border border-blue-600 px-3 py-1 rounded cursor-pointer group-hover:bg-blue-600 group-hover:text-white transition">
-                            Read More
-                          </span>
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setShareBlogId(blog.id === shareBlogId ? null : blog.id);
-                            }}
-                            className="border-gray-300 text-gray-600 hover:text-white hover:bg-gray-800"
-                          >
-                            <Share2 size={18} />
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-
-                  {shareBlogId === blog.id && (
-                    <div className="absolute top-4 right-4 z-50">
-                      <ShareCard url={getShareUrl(blog.id)} onClose={() => setShareBlogId(null)} />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            {totalPages > 1 && (
-              <div className="flex justify-center mt-10 space-x-2">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => paginate(page)}
-                    className={`border px-3 py-1 rounded ${
-                      page === currentPage
-                        ? 'bg-blue-900 text-white'
-                        : 'bg-white text-black'
-                    } hover:bg-blue-700 hover:text-white transition`}
-                  >
-                    {page}
-                  </button>
-                ))}
+        {/* Hero Section */}
+        <div className="relative overflow-hidden hero-section">
+          <HeroBackground />
+          <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay" />
+          <div className="container mx-auto px-4 py-16 relative z-10">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+              <div className="w-full text-center md:ml-40">
+                <h1 className="text-4xl font-bold md:text-5xl ml-30 text-white">BLOGS</h1>
+                <p className="text-xl text-purple-200 max-w-2xl md:ml-10">
+                  We keep you posted on our development
+                </p>
               </div>
-            )}
-          </>
-        ) : (
-          <div className="text-center py-16 border border-dashed border-gray-400 rounded-xl bg-gray-100">
-            <div className="max-w-md mx-auto">
-              <h3 className="text-xl font-medium text-gray-700 mb-2">No articles yet</h3>
-              <p className="text-gray-600 mb-6">We're working on some great content for you</p>
-              {!user && (
+
+              {user && (
                 <Button
-                  onClick={() => navigate('/auth')}
-                  className="bg-gradient-to-r from-[#4F5BFF] to-[#171a48] hover:from-[#5F6BFF] hover:to-[#272a58] text-white"
+                  onClick={() => navigate('/dashboard')}
+                  className="bg-gradient-to-r from-[#4F5BFF] to-[#171a48] hover:from-[#5F6BFF] hover:to-[#272a58] text-white shadow-lg shadow-[#4F5BFF]/20"
                 >
-                  Sign In
+                  Go to Dashboard
                 </Button>
               )}
             </div>
           </div>
-        )}
+        </div>
+
+        {/* Blog Grid */}
+        <div className="container py-16 bg-[#e8e8e8] text-black">
+          {blogs.length > 0 ? (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+                {currentBlogs.map((blog) => (
+                  <div key={blog.id} className="relative h-full">
+                    <Link to={`/blog/${blog.id}`} className="group h-full">
+                      <Card className="flex flex-col justify-between h-full bg-white border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition-all overflow-hidden">
+                        {blog.image_url && (
+                          <div className="aspect-video overflow-hidden relative">
+                            <img
+                              src={blog.image_url}
+                              alt={blog.title}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).style.display = 'none';
+                              }}
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                          </div>
+                        )}
+                        <CardHeader>
+                          <div className="flex justify-between items-center text-sm text-gray-600">
+                            <span>Published By: {blog.author || 'Admin'}</span>
+                          </div>
+                          <CardTitle className="text-xl text-black mt-2">{blog.title}</CardTitle>
+                          <CardDescription className="text-gray-700">
+                            {blog.description}
+                          </CardDescription>
+                        </CardHeader>
+
+                        <CardContent>
+                          <div className="flex justify-between items-center mt-4 space-x-2">
+                            <span className="text-sm text-blue-600 border border-blue-600 px-3 py-1 rounded cursor-pointer group-hover:bg-blue-600 group-hover:text-white transition">
+                              Read More
+                            </span>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setShareBlogId(blog.id === shareBlogId ? null : blog.id);
+                              }}
+                              className="border-gray-300 text-gray-600 hover:text-white hover:bg-gray-800"
+                            >
+                              <Share2 size={18} />
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+
+                    {shareBlogId === blog.id && (
+                      <div className="absolute top-4 right-4 z-50">
+                        <ShareCard url={getShareUrl(blog.id)} onClose={() => setShareBlogId(null)} />
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {totalPages > 1 && (
+                <div className="flex justify-center mt-10 space-x-2">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                    <button
+                      key={page}
+                      onClick={() => paginate(page)}
+                      className={`border px-3 py-1 rounded ${
+                        page === currentPage
+                          ? 'bg-blue-900 text-white'
+                          : 'bg-white text-black'
+                      } hover:bg-blue-700 hover:text-white transition`}
+                    >
+                      {page}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="text-center py-16 border border-dashed border-gray-400 rounded-xl bg-gray-100">
+              <div className="max-w-md mx-auto">
+                <h3 className="text-xl font-medium text-gray-700 mb-2">No articles yet</h3>
+                <p className="text-gray-600 mb-6">We're working on some great content for you</p>
+                {!user && (
+                  <Button
+                    onClick={() => navigate('/auth')}
+                    className="bg-gradient-to-r from-[#4F5BFF] to-[#171a48] hover:from-[#5F6BFF] hover:to-[#272a58] text-white"
+                  >
+                    Sign In
+                  </Button>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
