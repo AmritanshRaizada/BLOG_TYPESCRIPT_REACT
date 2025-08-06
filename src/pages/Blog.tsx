@@ -1,8 +1,9 @@
+'use client';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import ShareCard from '../components/ui/sharedcard.tsx';
-import Navbar from './Navbar.tsx';
-import Footer from './Footer.tsx';
+import ShareCard from '../components/ui/sharedcard';
+import Navbar from './Navbar';
+import Footer from './Footer';
 import {
   Card,
   CardContent,
@@ -46,8 +47,7 @@ const Blog = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      const blogData = data as Blog[];
-      setBlogs(blogData || []);
+      setBlogs(data as Blog[]);
     } catch (error) {
       console.error('Error fetching blogs:', error);
       setBlogs([]);
@@ -67,9 +67,7 @@ const Blog = () => {
           schema: 'public',
           table: 'blogs',
         },
-        () => {
-          fetchBlogs();
-        }
+        () => fetchBlogs()
       )
       .subscribe();
 
@@ -82,12 +80,9 @@ const Blog = () => {
   const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
   const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
   const totalPages = Math.ceil(blogs.length / blogsPerPage);
-
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
-  const getShareUrl = (blogId: string) => {
-    return `${window.location.origin}/blog/${blogId}`;
-  };
+  const getShareUrl = (blogId: string) =>
+    `${window.location.origin}/blog/${blogId}`;
 
   if (loading) {
     return (
@@ -102,22 +97,22 @@ const Blog = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#e8e8e8] text-black relative">
-      {/* Fixed Navbar */}
       <Navbar className="z-50 fixed top-0 left-0 w-full bg-white shadow" />
 
-      {/* Content Padding */}
       <div className="pt-12 flex-grow">
-
         {/* Hero Section */}
         <div className="relative overflow-hidden hero-section">
           <HeroBackground />
           <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay" />
           <div className="container mx-auto px-4 py-16 relative z-10">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-              <div className="w-full text-center md:ml-40">
-                <h1 className="text-4xl font-bold md:text-5xl ml-30 text-white">BLOGS</h1>
-               
-
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+              <div className="w-full text-center">
+                <h1 className="text-4xl font-bold md:text-5xl ml-60 text-white">
+                  BLOGS
+                </h1>
+                <p className="text-xl text-purple-200 ml-60 mt-2">
+                  We keep you posted on our development
+                </p>
               </div>
 
               {user && (
@@ -231,7 +226,6 @@ const Blog = () => {
         </div>
       </div>
 
-      {/* Footer */}
       <Footer />
     </div>
   );
