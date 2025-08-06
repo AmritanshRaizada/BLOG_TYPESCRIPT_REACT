@@ -116,9 +116,7 @@ const Blog = () => {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
               <div className="w-full text-center md:ml-40">
                 <h1 className="text-4xl font-bold md:text-5xl ml-30 text-white">BLOGS</h1>
-               <p className="text-xl text-purple-200 max-w-2xl ml-20 md:ml-20">
-  We keep you posted on our development
-</p>
+               
 
               </div>
 
