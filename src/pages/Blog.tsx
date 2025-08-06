@@ -107,10 +107,10 @@ const Blog = () => {
           <div className="container mx-auto px-4 py-16 relative z-10">
             <div className="flex flex-col md:flex-row justify-between items-center gap-6">
               <div className="w-full text-center">
-                <h1 className="text-4xl font-bold md:text-5xl ml-60 text-white">
+                <h1 className="text-4xl font-bold md:text-5xl ml-45 text-white">
                   BLOGS
                 </h1>
-                <p className="text-xl text-purple-200 ml-60 mt-2">
+                <p className="text-xl text-purple-200 ml-45 mt-2">
                   We keep you posted on our development
                 </p>
               </div>
