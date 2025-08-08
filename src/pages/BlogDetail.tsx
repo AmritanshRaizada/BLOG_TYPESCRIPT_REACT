@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
+import Footer from './Footer';
+import Navbar from './Navbar';
 import { Button } from '@/components/ui/button';
 
 interface Blog {
@@ -58,18 +60,19 @@ const BlogDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] text-black px-4 py-10">
+    <div className="min-h-screen bg-[#f8f9fa] text-black py-10">
       <div className="max-w-4xl mx-auto mb-6">
-        <Button
+        <Navbar/>
+        {/* <Button
           onClick={() => navigate(-1)}
-          className="bg-gray-100 text-black hover:bg-gray-200 border border-gray-300"
+          className="bg-gray-100 mt-20 text-black hover:bg-gray-200 border border-gray-300"
         >
           ← Back
-        </Button>
+        </Button> */}
       </div>
 
-      <Card className="max-w-4xl mx-auto bg-white border border-gray-300 shadow-lg rounded-lg">
-        {blog.image_url && (
+     <div className='bg-[#e8e8e8] mt-[-10px]'>
+              {blog.image_url && (
           <img
             src={blog.image_url}
             alt={blog.title}
@@ -77,7 +80,7 @@ const BlogDetail = () => {
           />
         )}
         <CardHeader>
-          <CardTitle className="text-3xl text-black font-bold">{blog.title}</CardTitle>
+          <CardTitle className="text-3xl pl-14 pt-4 text-black font-bold">{blog.title}</CardTitle>
         </CardHeader>
         <CardContent>
           <ReactMarkdown
@@ -86,7 +89,7 @@ const BlogDetail = () => {
             components={{
               h1: ({ children }) => <h1 className="text-3xl font-bold mb-4 text-black">{children}</h1>,
               h2: ({ children }) => <h2 className="text-2xl font-semibold mt-6 mb-2 text-black">{children}</h2>,
-              p: ({ children }) => <p className="mb-4 leading-relaxed text-gray-800">{children}</p>,
+              p: ({ children }) => <p className="pl-14  pr-60  mb-4 leading-relaxed text-gray-800">{children}</p>,
               ul: ({ children }) => <ul className="list-disc list-inside mb-4 text-gray-800">{children}</ul>,
               a: ({ href, children }) => (
                 <a href={href} className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">
@@ -97,8 +100,11 @@ const BlogDetail = () => {
           >
             {blog.content}
           </ReactMarkdown>
+
         </CardContent>
-      </Card>
+      </div>
+
+      <Footer/>
     </div>
   );
 };
