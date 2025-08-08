@@ -1,16 +1,16 @@
 .footer-section {
   background-color: #f9f9f9;
-  padding: 2rem 2rem;
+  padding: 2rem 1rem;
   font-size: 14px;
   font-weight: 600;
   font-family: 'Inter', sans-serif;
 }
 
 .footer-logo {
-  height: 45px;
-  width: 60px;
+  margin-top: 4px;
+  height: 37px;
   margin-bottom: 15px;
-  object-fit: contain;
+  width:60px;
 }
 
 .footer-address {
@@ -25,14 +25,16 @@
   gap: 10px;
 }
 
-.footer-contact i {
+.footer-contact i 
+{
   color: #B6000C;
-  font-size: 18px;
-  margin-top: 3px;
+  font-size: 15px;
   min-width: 20px;
+  margin-bottom:15px;
 }
 
-.footer-contact a {
+.footer-contact a 
+{
   color: #000;
   text-decoration: none;
   font-weight: 700;
@@ -52,7 +54,8 @@
   gap: 0.5rem;
 }
 
-.footer-links a {
+.footer-links a 
+{
   color: #000;
   text-decoration: none;
   font-weight: 700;
@@ -67,8 +70,9 @@
 .footer-socials {
   display: flex;
   gap: 1rem;
-  margin-top: 8px;
+  align-items: center;
 }
+
 
 .social-icon {
   background-color: black;
