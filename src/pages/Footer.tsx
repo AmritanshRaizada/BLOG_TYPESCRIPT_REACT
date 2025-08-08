@@ -33,19 +33,18 @@ const Footer = () => {
     </a>
   </div>
 
-  <div className="footer-contact">
+  <div className="footer-contact mt-2">
     <i className="ri-phone-fill icon-red"></i>
     <a href="tel:+918376000033">+91 83760-00033</a>
   </div>
 
   <div className="footer-contact">
-    <i className="ri-mail-fill icon-red"></i>
+   <i className="ri-mail-fill"></i>
     <a href="mailto:info@visionandsolutions.com">
       Info@visionandsolutions.com
     </a>
   </div>
 </div>
-
           </div>
 
           {/* Column 2 - Quick Links */}
